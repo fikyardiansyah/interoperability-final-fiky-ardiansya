@@ -1,0 +1,109 @@
+/* ======== Global Styles ======== */
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f6fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 25px 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ======== Header ======== */
+header {
+  text-align: center;
+  border-bottom: 3px solid #0078d7;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+}
+header h1 {
+  color: #0078d7;
+  margin-bottom: 5px;
+}
+
+/* ======== Form Section ======== */
+.form-section {
+  margin-bottom: 40px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+button {
+  padding: 12px;
+  background-color: #0078d7;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+button:hover {
+  background-color: #005fa3;
+}
+
+/* ======== Events Section ======== */
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+.card {
+  background: #f9fbfd;
+  border: 1px solid #d0e0ef;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: 0.2s;
+}
+.card:hover {
+  transform: translateY(-3px);
+}
+.card h3 {
+  color: #0078d7;
+  margin-top: 0;
+}
+.card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+.card button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ======== Participants Section ======== */
+.participants-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+.participants-section li {
+  background-color: #eef4fa;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border-left: 5px solid #0078d7;
+}
+
+/* ======== Footer ======== */
+footer {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 13px;
+  color: #777;
+}

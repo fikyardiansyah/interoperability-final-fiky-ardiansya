@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Event Registration</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    const API_URL = "http://127.0.0.1:8000";
+
+    async function loadEvents() {
+      const response = await fetch(`${API_URL}/events`);
+      const data = await response.json();
+      const list = document.getElementById("events-list");
+      list.innerHTML = "";
+
+      data.data.forEach(event => {
+        const item = document.createElement("div");
+        item.classList.add("card");
+        item.innerHTML = `
+          <h3>${event.title}</h3>
+          <p>📅 ${event.date} — 📍 ${event.location}</p>
+          <p>Kuota: ${event.quota}</p>
+          <button onclick="fillEvent(${event.id})">Pilih Event</button>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    async function loadParticipants() {
+      const response = await fetch(`${API_URL}/participants`);
+      const data = await response.json();
+      const list = document.getElementById("participants-list");
+      list.innerHTML = "";
+
+      data.data.forEach(p => {
+        const item = document.createElement("li");
+        item.innerHTML = `<b>${p.name}</b> (${p.email}) — ${p.event_title}`;
+        list.appendChild(item);
+      });
+    }
+
+    async function registerParticipant() {
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const eventId = document.getElementById("event_id").value;
+
+      if (!name || !email || !eventId) {
+        alert("❗ Semua kolom harus diisi!");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/participants/register`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, event_id: parseInt(eventId) }),
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert("✅ " + result.message);
+          document.getElementById("name").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("event_id").value = "";
+          loadParticipants();
+        } else {
+          alert("⚠️ " + result.detail);
+        }
+      } catch (error) {
+        alert("❌ Gagal mendaftar. Periksa koneksi server.");
+      }
+    }
+
+    function fillEvent(id) {
+      document.getElementById("event_id").value = id;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    window.onload = function () {
+      loadEvents();
+      loadParticipants();
+    };
+  </script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎓 Campus Event Registration</h1>
+      <p>Daftarkan dirimu untuk mengikuti event kampus terkini</p>
+    </header>
+
+    <section class="form-section">
+      <h2>📝 Formulir Pendaftaran Peserta</h2>
+      <div class="form-group">
+        <input type="text" id="name" placeholder="Nama Lengkap" />
+        <input type="email" id="email" placeholder="Alamat Email" />
+        <input type="number" id="event_id" placeholder="ID Event (klik tombol di bawah event)" />
+        <button onclick="registerParticipant()">Daftar Sekarang</button>
+      </div>
+    </section>
+
+    <section class="events-section">
+      <h2>📅 Daftar Event Kampus</h2>
+      <div id="events-list" class="card-container"></div>
+    </section>
+
+    <section class="participants-section">
+      <h2>👥 Daftar Peserta Terdaftar</h2>
+      <ul id="participants-list"></ul>
+    </section>
+
+    <footer>
+      <p>© 2025 Politeknik Negeri Bali — Fiky Ardiansyah</p>
+    </footer>
+  </div>
+</body>
+</html>
