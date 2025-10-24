@@ -28,3 +28,5 @@ Menampilkan event dan formulir pendaftaran peserta menggunakan HTML/Fetch API at
 (Bonus) Autentikasi Token
 Admin-only access untuk menambah/menghapus event
 (Bonus) Dokumentasi API
+
+"Mohon Maaf, sementara belum selesai karena kedala laptop🙏"
