@@ -29,3 +29,17 @@ Menampilkan event dan formulir pendaftaran peserta menggunakan HTML/Fetch API at
 Admin-only access untuk menambah/menghapus event
 (Bonus) Dokumentasi API
 
+## ⚙️ Instalasi dan Persiapan
+
+### 1. Persiapkan Virtual Environment
+Buka terminal di folder proyek:
+```bash
+cd backend
+python -m venv venv
+
+1. Jalankan Backend (FastAPI)
+Masuk ke folder backend:
+cd backend
+python -m uvicorn main:app --reload
+
+
