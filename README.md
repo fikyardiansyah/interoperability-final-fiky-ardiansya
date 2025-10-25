@@ -52,8 +52,8 @@ project-root/
 │  └─ README.md
 ├─ frontend/
 │  ├─ index.html
-│  ├─ app.js
-│  └─ styles.css
+│  ├─ styles.css
+│  
 ├─ README.md   
 └─ .gitignore
 ```
