@@ -6,44 +6,73 @@
   <title>Campus Event Registration</title>
   <link rel="stylesheet" href="style.css" />
   <script>
+    // ✅ URL backend FastAPI
     const API_URL = "http://127.0.0.1:8000";
 
+    // -----------------------------
+    // 🔹 Ambil daftar event kampus
+    // -----------------------------
     async function loadEvents() {
-      const response = await fetch(`${API_URL}/events`);
-      const data = await response.json();
-      const list = document.getElementById("events-list");
-      list.innerHTML = "";
+      try {
+        const response = await fetch(`${API_URL}/events`);
+        const data = await response.json();
+        const list = document.getElementById("events-list");
+        list.innerHTML = "";
 
-      data.data.forEach(event => {
-        const item = document.createElement("div");
-        item.classList.add("card");
-        item.innerHTML = `
-          <h3>${event.title}</h3>
-          <p>📅 ${event.date} — 📍 ${event.location}</p>
-          <p>Kuota: ${event.quota}</p>
-          <button onclick="fillEvent(${event.id})">Pilih Event</button>
-        `;
-        list.appendChild(item);
-      });
+        if (data.data.length === 0) {
+          list.innerHTML = "<p>Tidak ada event tersedia.</p>";
+          return;
+        }
+
+        data.data.forEach(event => {
+          const item = document.createElement("div");
+          item.classList.add("card");
+          item.innerHTML = `
+            <h3>${event.title}</h3>
+            <p>📅 ${event.date} — 📍 ${event.location}</p>
+            <p>Kuota: ${event.quota}</p>
+            <button onclick="fillEvent(${event.id})">Pilih Event</button>
+          `;
+          list.appendChild(item);
+        });
+      } catch (error) {
+        console.error("Gagal memuat event:", error);
+        alert("❌ Tidak dapat terhubung ke server. Pastikan backend aktif.");
+      }
     }
 
+    // -----------------------------
+    // 🔹 Ambil daftar peserta
+    // -----------------------------
     async function loadParticipants() {
-      const response = await fetch(`${API_URL}/participants`);
-      const data = await response.json();
-      const list = document.getElementById("participants-list");
-      list.innerHTML = "";
+      try {
+        const response = await fetch(`${API_URL}/participants`);
+        const data = await response.json();
+        const list = document.getElementById("participants-list");
+        list.innerHTML = "";
 
-      data.data.forEach(p => {
-        const item = document.createElement("li");
-        item.innerHTML = `<b>${p.name}</b> (${p.email}) — ${p.event_title}`;
-        list.appendChild(item);
-      });
+        if (data.data.length === 0) {
+          list.innerHTML = "<li>Belum ada peserta terdaftar.</li>";
+          return;
+        }
+
+        data.data.forEach(p => {
+          const item = document.createElement("li");
+          item.innerHTML = `<b>${p.name}</b> (${p.email}) — ${p.event_title}`;
+          list.appendChild(item);
+        });
+      } catch (error) {
+        console.error("Gagal memuat peserta:", error);
+      }
     }
 
+    // -----------------------------
+    // 🔹 Fungsi daftar peserta baru
+    // -----------------------------
     async function registerParticipant() {
-      const name = document.getElementById("name").value;
-      const email = document.getElementById("email").value;
-      const eventId = document.getElementById("event_id").value;
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const eventId = document.getElementById("event_id").value.trim();
 
       if (!name || !email || !eventId) {
         alert("❗ Semua kolom harus diisi!");
@@ -65,24 +94,32 @@
           document.getElementById("event_id").value = "";
           loadParticipants();
         } else {
-          alert("⚠️ " + result.detail);
+          alert("⚠️ " + (result.detail || "Terjadi kesalahan saat mendaftar."));
         }
       } catch (error) {
+        console.error("Error:", error);
         alert("❌ Gagal mendaftar. Periksa koneksi server.");
       }
     }
 
+    // -----------------------------
+    // 🔹 Fungsi isi otomatis event_id
+    // -----------------------------
     function fillEvent(id) {
       document.getElementById("event_id").value = id;
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
+    // -----------------------------
+    // 🔹 Jalankan saat halaman dimuat
+    // -----------------------------
     window.onload = function () {
       loadEvents();
       loadParticipants();
     };
   </script>
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -90,6 +127,7 @@
       <p>Daftarkan dirimu untuk mengikuti event kampus terkini</p>
     </header>
 
+    <!-- Form Pendaftaran -->
     <section class="form-section">
       <h2>📝 Formulir Pendaftaran Peserta</h2>
       <div class="form-group">
@@ -100,11 +138,13 @@
       </div>
     </section>
 
+    <!-- Daftar Event -->
     <section class="events-section">
       <h2>📅 Daftar Event Kampus</h2>
       <div id="events-list" class="card-container"></div>
     </section>
 
+    <!-- Daftar Peserta -->
     <section class="participants-section">
       <h2>👥 Daftar Peserta Terdaftar</h2>
       <ul id="participants-list"></ul>
@@ -116,3 +156,4 @@
   </div>
 </body>
 </html>
+
