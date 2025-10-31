@@ -212,11 +212,3 @@ fetch(`${API_URL}/participants/register`, {
 
 ---
 
-Jika mau, saya bisa:
-
-* Membuat file `main.py` contoh untuk FastAPI lengkap dengan route CRUD
-* Membuat `index.html` + `app.js` frontend minimal yang langsung bekerja dengan backend
-* Menyusun `requirements.txt` dan `run` script
-
-
-
